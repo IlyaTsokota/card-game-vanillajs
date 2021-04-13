@@ -1,0 +1,17 @@
+.hall {
+	margin: 0 auto;
+	padding-top: 25px;
+	width: 400px;
+	&__title {
+		color: #fff;
+		font-size: 48px;
+		text-align: center;
+	}
+
+	&__wait {
+		text-align: center;
+		color: #fff;
+		margin-top: 25px;
+		font-size: 24px;
+	}
+}

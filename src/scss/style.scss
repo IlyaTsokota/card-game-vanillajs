@@ -1,0 +1,34 @@
+@import "base/variables";
+@import "base/nullstyle";
+@import "base/mixins";
+@import "base/media_mixin";
+@import "base/flex_helper";
+@import "base/fonts";
+
+* {
+	font-family: $main-font;
+}
+
+.container {
+	position: relative;
+	max-width: 1170px;
+	padding: 0 15px;
+	margin: 0 auto;
+}
+
+#main {
+	background-color: #222222;
+	width: 100%;
+	height: 100vh;
+}
+
+@import "blocks/form";
+@import "blocks/signin";
+@import "blocks/signup";
+@import "blocks/congratulation";
+@import "blocks/header";
+@import "blocks/table";
+@import "blocks/main-page";
+@import "blocks/room";
+@import "blocks/hall";
+@import "blocks/settings";
