@@ -21,8 +21,8 @@ const gulp = require('gulp'),
 	fonter = require('gulp-fonter'),
 	fs = require('fs');
 
-const srcDir = 'src';
-const distDir = 'dist';
+const srcDir = 'src/frontend';
+const distDir = 'dist/frontend';
 
 const dir = {
 	src: {
@@ -80,6 +80,8 @@ gulp.task('watch', () => {
 	gulp.watch(dir.src.sass).on('change', gulp.parallel('styles', browserSync.reload));
 	gulp.watch(dir.src.html).on('change', gulp.parallel('html', browserSync.reload));
 	gulp.watch(dir.src.js).on('change', gulp.parallel('scripts', browserSync.reload));
+	gulp.watch("src/backend/**/*").on('change', gulp.parallel('backend', browserSync.reload));
+
 });
 
 gulp.task('html', () => gulp.src(dir.src.html)
@@ -95,7 +97,7 @@ gulp.task('html', () => gulp.src(dir.src.html)
 	.pipe(browserSync.stream())
 );
 
-gulp.task('scripts', () => gulp.src("src/js/script.js")
+gulp.task('scripts', () => gulp.src("src/frontend/js/script.js")
 	.pipe(webpackStream({
 		mode: 'development',
 		output: {
@@ -125,7 +127,7 @@ gulp.task('scripts', () => gulp.src("src/js/script.js")
 	.pipe(rename({
 		suffix: '.min'
 	}))
-	.pipe(gulp.dest('dist/js/'))
+	.pipe(gulp.dest('dist/frontend/js/'))
 );
 
 gulp.task('fonts', () => {
@@ -155,8 +157,8 @@ gulp.task('icons', () => gulp.src(dir.src.icons)
 	.pipe(browserSync.stream())
 );
 
-gulp.task('mailer', () => gulp.src(dir.src.mailer)
-	.pipe(gulp.dest(dir.dist.maliler))
+gulp.task('backend', () => gulp.src("src/backend/**/*")
+	.pipe(gulp.dest("dist/backend/"))
 	.pipe(browserSync.stream())
 );
 
@@ -198,7 +200,7 @@ const build = gulp.series(clean,
 		'scripts',
 		'fonts',
 		'icons',
-		'mailer',
+		'backend',
 		'images',
 		'html',
 	)

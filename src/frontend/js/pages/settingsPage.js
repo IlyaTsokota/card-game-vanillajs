@@ -40,7 +40,7 @@ const settingsPage = () => {
 							<label for="name">Login</label>
 							<input type="text" name="name" value="John" required />
 						</div>
-						<button class="settings__btn" type="submit">Create</button>
+						<button class="settings__btn" type="submit">Save</button>
 					</form>
 				</div>
 			</div>
