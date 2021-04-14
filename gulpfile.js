@@ -21,8 +21,8 @@ const gulp = require('gulp'),
 	fonter = require('gulp-fonter'),
 	fs = require('fs');
 
-const srcDir = 'src/frontend';
-const distDir = 'dist/frontend';
+const srcDir = 'src';
+const distDir = 'dist';
 
 const dir = {
 	src: {
@@ -97,7 +97,7 @@ gulp.task('html', () => gulp.src(dir.src.html)
 	.pipe(browserSync.stream())
 );
 
-gulp.task('scripts', () => gulp.src("src/frontend/js/script.js")
+gulp.task('scripts', () => gulp.src("src/js/script.js")
 	.pipe(webpackStream({
 		mode: 'development',
 		output: {
@@ -127,7 +127,7 @@ gulp.task('scripts', () => gulp.src("src/frontend/js/script.js")
 	.pipe(rename({
 		suffix: '.min'
 	}))
-	.pipe(gulp.dest('dist/frontend/js/'))
+	.pipe(gulp.dest('dist/js/'))
 );
 
 gulp.task('fonts', () => {
