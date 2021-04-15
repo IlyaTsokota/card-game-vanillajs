@@ -81,12 +81,12 @@ export default function router() {
 		const btn = document.querySelector('.header__info');
 		btn.removeEventListener('click', showModal);
 		btn.addEventListener('click', showModal);
-		// const upload = document.querySelector('#upload');
-		// upload.removeEventListener("change", changeSettingsImage);
-		// upload.addEventListener("change", changeSettingsImage);
+		const upload = document.querySelector('#upload');
+		upload.removeEventListener("change", changeSettingsImage);
+		upload.addEventListener("change", changeSettingsImage);
 		const form = document.querySelector('.settings__form');
-		form.removeEventListener('click', updateUser);
-		form.addEventListener('click', updateUser);
+		form.removeEventListener('submit', updateUser);
+		form.addEventListener('submit', updateUser);
 	});
 
 
@@ -115,18 +115,18 @@ export default function router() {
 	window.addEventListener('load', router);
 	window.addEventListener('hashchange', router);
 
-	// function changeSettingsImage(e) {
-	// 	e.preventDefault();
-	// 	setSrcImgFromPathImage(e.target.files[0], document.querySelector('.upload__img'));
-	// }
+	function changeSettingsImage(e) {
+		e.preventDefault();
+		setSrcImgFromPathImage(e.target.files[0], document.querySelector('.upload__img'));
+	}
 
-	// function setSrcImgFromPathImage(file, el) {
-	// 	const reader = new FileReader();
-	// 	reader.readAsDataURL(file, 'UTF-8');
-	// 	reader.addEventListener('load', (event) => {
-	// 		el.src = event.target.result;
-	// 	});
-	// }
+	function setSrcImgFromPathImage(file, el) {
+		const reader = new FileReader();
+		reader.readAsDataURL(file, 'UTF-8');
+		reader.addEventListener('load', (event) => {
+			el.src = event.target.result;
+		});
+	}
 
 
 	function showModal(e) {
@@ -138,6 +138,8 @@ export default function router() {
 		e.preventDefault();
 		const json = formDataToObject(this);
 		const msg = this.querySelector('.form__valid');
+
+
 
 		postData('./backend/requests/signInUser.php', JSON.stringify(json))
 			.then((data) => {
@@ -164,34 +166,32 @@ export default function router() {
 		e.preventDefault();
 		const json = formDataToObject(this);
 		const msg = this.querySelector('.form__valid');
-		const reader = new FileReader();
-		reader.readAsDataURL(document.querySelector('#upload').files[0], 'UTF-8');
-		reader.addEventListener('load', (event) => {
 
-			const { id } = localStorage.getItem('userInfo');
-			json.id = id;
-			console.log(json);
+		const { id } = JSON.parse(localStorage.getItem('userInfo'));
+		json.id = +id;
+		const imgSrc = this.querySelector('.upload__img').src;
 
-			postData('./backend/requests/updateUser.php', JSON.stringify(json))
-				.then(data => console.log(data)
-				)
-				// .then(({ result }) => {
-				// 	if (result) {
-				// 		localStorage.setItem("userInfo", JSON.stringify({ login: json.login, img: json.photo }));
-				// 		msg.textContent = 'Update success!';
-				// 		msg.classList.add('form__valid--active');
-				// 		msg.style.color = 'green';
-				// 	} else {
-				// 		msg.textContent = 'Fail!';
-				// 		msg.classList.add('form__valid--active');
-				// 	}
-				// })
-				.catch((err) => {
-					console.error(err);
-				});
 
-		});
+		json.photo = imgSrc.slice(imgSrc.indexOf('base64,') + 7);
 
+
+		postData('./backend/requests/updateUser.php', JSON.stringify(json))
+			.then(({ result }) => {
+				if (result) {
+					localStorage.setItem("userInfo", JSON.stringify({ id: json.id, login: json.login, img: json.photo }));
+					msg.textContent = 'Update success!';
+					msg.classList.add('form__valid--active');
+					msg.style.color = 'green';
+					document.querySelector('.header__icon img').src = imgSrc;
+					document.querySelector('.header__name').textContent = json.login;
+				} else {
+					msg.textContent = 'Fail!';
+					msg.classList.add('form__valid--active');
+				}
+			})
+			.catch((err) => {
+				console.error(err);
+			});
 
 	}
 

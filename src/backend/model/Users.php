@@ -79,6 +79,7 @@ class Users extends Model
 		$request->execute(array(
 			':login' => $this->login,
 			':pass' => $this->password,
+			':u_img' => $this->image,
 			':id' => $this->id
 		));
 	}

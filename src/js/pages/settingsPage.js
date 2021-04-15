@@ -37,7 +37,7 @@ const settingsPage = () => {
 								<img class="upload__img" src="data:image/jpeg;base64,${img}" alt="avatar" />
 								<p>Upload image</p>
 							</label>
-							<input type="file" id="upload" name="photo" />
+							<input type="file" id="upload" name="photo" accept=".jpg,.jpeg,.png"/>
 						</div>
 						<div class="settings__form-input">
 							<label for="name">Login</label>
