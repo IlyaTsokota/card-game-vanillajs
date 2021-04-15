@@ -30,6 +30,8 @@ const settingsPage = () => {
 				<div class="main-page__settings settings">
 					<a href="#/main" class="settings__back">Back</a>
 					<h1 class="settings__title">Settings</h1>
+					
+					<form enctype="multipart/form-data" method="POST" class="settings__form">
 					<div class="settings__upload">
 							<label for="upload">
 								<img class="upload__img" src="data:image/jpeg;base64,${img}" alt="avatar" />
@@ -37,10 +39,9 @@ const settingsPage = () => {
 							</label>
 							<input type="file" id="upload" name="photo" />
 						</div>
-					<form method="POST" class="settings__form">
 						<div class="settings__form-input">
 							<label for="name">Login</label>
-							<input type="text" name="name" value="${login}" required />
+							<input type="text" name="login" value="${login}" required />
 						</div>
 						<button class="settings__btn" type="submit">Save</button>
 						<p class="form__valid"></p>

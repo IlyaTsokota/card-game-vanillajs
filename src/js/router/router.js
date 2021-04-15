@@ -5,6 +5,8 @@ import mainPage from '../pages/mainPage';
 import createRoomPage from '../pages/createRoomPage';
 import waitingHallPage from '../pages/waitingHallPage';
 import settingsPage from '../pages/settingsPage';
+import battlePage from '../pages/battlePage';
+
 import { postData } from '../services/services';
 
 export default function router() {
@@ -69,18 +71,22 @@ export default function router() {
 		btn.addEventListener('click', showModal);
 	});
 
+	template('battle', () => {
+		myDiv.insertAdjacentHTML('afterbegin', battlePage());
+	});
+
 	template('settings', () => {
 		myDiv.insertAdjacentHTML('afterbegin', settingsPage());
 
 		const btn = document.querySelector('.header__info');
 		btn.removeEventListener('click', showModal);
 		btn.addEventListener('click', showModal);
+		// const upload = document.querySelector('#upload');
+		// upload.removeEventListener("change", changeSettingsImage);
+		// upload.addEventListener("change", changeSettingsImage);
 		const form = document.querySelector('.settings__form');
 		form.removeEventListener('click', updateUser);
 		form.addEventListener('click', updateUser);
-		const upload = document.querySelector('#upload');
-		upload.removeEventListener("change", changeSettingsImage);
-		upload.addEventListener("change", changeSettingsImage);
 	});
 
 
@@ -104,22 +110,23 @@ export default function router() {
 	route('/create-room', 'create-room');
 	route('/waiting-hall', 'waiting-hall');
 	route('/settings', 'settings');
+	route('/battle', 'battle');
 
 	window.addEventListener('load', router);
 	window.addEventListener('hashchange', router);
 
-	function changeSettingsImage(e) {
-		e.preventDefault();
-		setSrcImgFromPathImage(e.target.files[0], document.querySelector('.upload__img'));
-	}
+	// function changeSettingsImage(e) {
+	// 	e.preventDefault();
+	// 	setSrcImgFromPathImage(e.target.files[0], document.querySelector('.upload__img'));
+	// }
 
-	function setSrcImgFromPathImage(file, el) {
-		const reader = new FileReader();
-		reader.readAsDataURL(file, 'UTF-8');
-		reader.addEventListener('load', (event) => {
-			el.src = event.target.result;
-		});
-	}
+	// function setSrcImgFromPathImage(file, el) {
+	// 	const reader = new FileReader();
+	// 	reader.readAsDataURL(file, 'UTF-8');
+	// 	reader.addEventListener('load', (event) => {
+	// 		el.src = event.target.result;
+	// 	});
+	// }
 
 
 	function showModal(e) {
@@ -160,19 +167,25 @@ export default function router() {
 		const reader = new FileReader();
 		reader.readAsDataURL(document.querySelector('#upload').files[0], 'UTF-8');
 		reader.addEventListener('load', (event) => {
-			json.photo = event.target.result;
+
+			const { id } = localStorage.getItem('userInfo');
+			json.id = id;
+			console.log(json);
+
 			postData('./backend/requests/updateUser.php', JSON.stringify(json))
-				.then(({ result }) => {
-					if (result) {
-						localStorage.setItem("userInfo", JSON.stringify({ login: json.login, img: json.photo }));
-						msg.textContent = 'Update success!';
-						msg.classList.add('form__valid--active');
-						msg.style.color = 'green';
-					} else {
-						msg.textContent = 'Fail!';
-						msg.classList.add('form__valid--active');
-					}
-				})
+				.then(data => console.log(data)
+				)
+				// .then(({ result }) => {
+				// 	if (result) {
+				// 		localStorage.setItem("userInfo", JSON.stringify({ login: json.login, img: json.photo }));
+				// 		msg.textContent = 'Update success!';
+				// 		msg.classList.add('form__valid--active');
+				// 		msg.style.color = 'green';
+				// 	} else {
+				// 		msg.textContent = 'Fail!';
+				// 		msg.classList.add('form__valid--active');
+				// 	}
+				// })
 				.catch((err) => {
 					console.error(err);
 				});

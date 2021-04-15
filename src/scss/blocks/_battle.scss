@@ -1,0 +1,186 @@
+@keyframes rotateMoney {
+	from {
+		transform: rotateX(0deg);
+	}
+	50% {
+		transform: rotateX(180deg);
+	}
+	to {
+		transform: rotateX(0deg);
+	}
+}
+
+.battle {
+	height: 100vh;
+	overflow: hidden;
+
+	&__field {
+		height: 100vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	&__user {
+		max-width: 100%;
+		height: 50%;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+	}
+
+	&__user--enemy {
+		justify-content: flex-start;
+	}
+
+	&__user-base {
+		position: relative;
+		height: 119px;
+		background: url("../img/i.jpg") center (center / cover) repeat;
+	}
+
+	&__user--enemy &__user-base {
+		background: url("../img/enemy.jpg") center (center / cover) repeat;
+	}
+
+	&__user-img {
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%, -35%);
+		width: 150px;
+		height: 150px;
+		position: relative;
+		img {
+			width: 150px;
+			height: 150px;
+			display: block;
+			border-radius: 50%;
+		}
+	}
+
+	&__user--enemy &__user-img {
+		transform: translate(-50%, 10%);
+	}
+
+	&__user-health {
+		position: absolute;
+		display: flex;
+		right: -50px;
+		bottom: 10px;
+		img {
+			width: 50px;
+			height: 50px;
+		}
+		p {
+			font-weight: bold;
+			font-size: 48px;
+			color: #ffffff;
+		}
+	}
+
+	&__user-front {
+		height: 100%;
+	}
+
+	&__deck {
+		position: absolute;
+		top: 50%;
+		width: 150px;
+		height: 250px;
+		left: 0;
+		transform: translateY(-50%);
+	}
+
+	&__deck-card {
+		position: absolute;
+		border-radius: 25px;
+		width: 150px;
+		height: 250px;
+		top: 0px;
+		left: 0px;
+		background: url("../img/bg-card.jpg") center (center / cover) repeat;
+		z-index: 0;
+	}
+	&__deck-card:first-child {
+		top: -10px;
+		left: -10px;
+		z-index: 1;
+	}
+	&__deck-card:last-child {
+		top: -25px;
+		left: -25px;
+		z-index: 2;
+	}
+
+	&__step-time {
+		position: absolute;
+		right: 15px;
+		top: 50%;
+		transform: translateY(-50%);
+		font-size: 48px;
+		color: #fff;
+	}
+
+	&__choise--active {
+		display: block;
+	}
+
+	&__choise {
+		display: none;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -100%);
+	}
+
+	&__choise-text {
+		color: #ffffff;
+		font-size: 48px;
+		text-align: center;
+	}
+
+	&__choise-btns {
+		margin-top: 25px;
+		display: flex;
+	}
+
+	&__choise-btn {
+		font-size: 24px;
+		padding: 10px 50px;
+		background: #ecd444;
+		border-radius: 25px;
+		margin: 0 15px;
+		cursor: pointer;
+		transition: 0.3s all;
+	}
+
+	&__choise-btn:hover {
+		opacity: 0.7;
+	}
+
+	&__money--active {
+		display: block;
+	}
+
+	&__money {
+		display: none;
+		perspective: 1000px;
+		top: 50%;
+		left: 50%;
+		position: absolute;
+
+		transform: translate(-50%, -50%);
+	}
+	&__money-inner {
+		transform: rotateX(-30deg);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: #ecd444;
+		font-size: 48px;
+		width: 250px;
+		height: 250px;
+		border-radius: 50%;
+		animation: rotateMoney 2s infinite;
+	}
+}
